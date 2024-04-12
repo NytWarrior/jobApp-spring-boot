@@ -1,6 +1,7 @@
 package com.example.jobapp.company.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,42 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public List<Company> findAllCompanies() {
+    public List<Company> getAllCompanies() {
         return companyRepository.findAll();
+    }
+
+    @Override
+    public boolean updateCompany(Company company, Long id) {
+        Optional<Company> comapanOptional = companyRepository.findById(id);
+        if (comapanOptional.isPresent()) {
+            Company companyToUpdate = comapanOptional.get();
+            companyToUpdate.setDescription(company.getDescription());
+            companyToUpdate.setName(company.getName());
+            companyToUpdate.setJobs(company.getJobs());
+            companyRepository.save(companyToUpdate);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public void createCompany(Company company) {
+        companyRepository.save(company);
+    }
+
+    @Override
+    public boolean deleteCompanyById(Long id) {
+        if (companyRepository.existsById(id)) {
+            companyRepository.deleteById(id);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public Company getCompanyById(Long id) {
+        return companyRepository.findById(id).orElse(null);
     }
 }

@@ -1,5 +1,7 @@
 package com.example.jobapp.job;
 
+import com.example.jobapp.company.Company;
+
 // import jakarta.persistence.Entity;
 // import jakarta.persistence.Id;
 // import jakarta.persistence.Table;
@@ -16,6 +18,9 @@ public class Job {
     private String minSalary;
     private String maxSalary;
     private String location;
+
+    @ManyToOne
+    private Company company;
 
     public Job() {
     }
@@ -76,5 +81,13 @@ public class Job {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
     }
 }
